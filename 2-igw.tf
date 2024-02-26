@@ -1,7 +1,7 @@
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
+resource "aws_internet_gateway" "dev-igw" {
+  vpc_id = aws_vpc.dev.id
 
   tags = {
-    Name = "igw"
+    Name = "dev-igw"
   }
 }
