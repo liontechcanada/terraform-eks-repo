@@ -5,3 +5,5 @@ resource "aws_internet_gateway" "dev-igw" {
     Name = "dev-igw"
   }
 }
+
+# igw : internet gateway
