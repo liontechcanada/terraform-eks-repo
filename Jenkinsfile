@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'terraform' // Agent with Terraform installed
+        label 'master' // Agent with Terraform installed
     }
 
     environment {
