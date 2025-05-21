@@ -16,49 +16,55 @@ pipeline {
             }
         }
 
-        stage('Terraform Init') {
-            steps {
-                dir('terraform') {
-                    sh 'terraform init -input=false'
-                }
-            }
-        }
+        // stage('Terraform Init') {
+        //     steps {
+        //         dir('terraform') {
+        //             sh 'terraform init -input=false'
+        //         }
+        //     }
+        // }
 
-        stage('Terraform Plan') {
-            steps {
-                dir('terraform') {
-                    sh 'terraform plan -out=tfplan -input=false'
-                    // archiveArtifacts artifacts: 'terraform/tfplan', onlyIfSuccessful: true
-                }
-            }
-        }
+        // stage('Terraform Plan') {
+        //     steps {
+        //         dir('terraform') {
+        //             sh 'terraform plan -out=tfplan -input=false'
+        //             // archiveArtifacts artifacts: 'terraform/tfplan', onlyIfSuccessful: true
+        //         }
+        //     }
+        // }
 
-        stage('Manual Approval') {
+        // stage('Manual Approval') {
+        //     when {
+        //         branch 'master' // Only require approval for production
+        //     }
+        //     steps {
+        //         timeout(time: 30, unit: 'MINUTES') {
+        //             input message: 'Apply Terraform changes?', ok: 'Apply'
+        //         }
+        //     }
+        // }
+
+        // stage('Terraform Apply') {
+        //     steps {
+        //         dir('terraform') {
+        //             sh 'terraform apply -input=false tfplan'
+        //         }
+        //     }
+        // }
+
+        stage('Terraform Destroy') {
             when {
-                branch 'master' // Only require approval for production
+                expression { params.DESTROY == true }
             }
             steps {
-                timeout(time: 30, unit: 'MINUTES') {
-                    input message: 'Apply Terraform changes?', ok: 'Apply'
+                timeout(time: 10, unit: 'MINUTES') {
+                    input(message: 'CONFIRM DESTRUCTION?')
                 }
-            }
-        }
-
-        stage('Terraform Apply') {
-            steps {
                 dir('terraform') {
-                    sh 'terraform apply -input=false tfplan'
+                    sh 'terraform destroy -auto-approve'
                 }
             }
         }
-
-        stage('Post Deployment Tests') {
-            steps {
-                // Add your integration tests here
-                echo "Running post-deployment tests..."
-            }
-        }
-    }
 
     post {
         always {
