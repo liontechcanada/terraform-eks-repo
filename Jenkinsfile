@@ -50,7 +50,7 @@ pipeline {
         //             sh 'terraform apply -input=false tfplan'
         //         }
         //     }
-        // }
+    }
 
         stage('Terraform Destroy') {
             when {
