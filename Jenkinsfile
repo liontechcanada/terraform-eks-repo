@@ -28,14 +28,14 @@ pipeline {
             steps {
                 dir('terraform') {
                     sh 'terraform plan -out=tfplan -input=false'
-                    archiveArtifacts artifacts: 'terraform/tfplan', onlyIfSuccessful: true
+                    // archiveArtifacts artifacts: 'terraform/tfplan', onlyIfSuccessful: true
                 }
             }
         }
 
         stage('Manual Approval') {
             when {
-                branch 'main' // Only require approval for production
+                branch 'master' // Only require approval for production
             }
             steps {
                 timeout(time: 30, unit: 'MINUTES') {
