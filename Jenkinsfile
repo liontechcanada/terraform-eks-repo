@@ -26,7 +26,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                dir('terraform-eks-repo') {
+                dir('terraform') {
                     sh 'terraform plan -out=tfplan -input=false'
                     archiveArtifacts artifacts: 'terraform/tfplan', onlyIfSuccessful: true
                 }
