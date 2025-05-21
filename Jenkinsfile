@@ -16,13 +16,13 @@ pipeline {
             }
         }
         
-        // stage('Terraform Init') {
-        //     steps {
-        //         dir('terraform') {
-        //             sh 'terraform init -input=false'
-        //         }
-        //     }
-        // }
+        stage('Terraform Init') {
+            steps {
+                dir('terraform') {
+                    sh 'terraform init -input=false'
+                }
+            }
+        }
         
         // stage('Terraform Plan') {
         //     when {
